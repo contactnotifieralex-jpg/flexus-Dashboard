@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FLEXUS Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #1f1f1f, #111);
+            color: white;
+        }
+
+        .center-box {
+            width: 400px;
+            margin: 120px auto;
+            background: #222;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+            animation: fadeIn 0.6s ease;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: #5865F2;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #4752C4;
+        }
+
+        #dashboard {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .card {
+            background: #2b2b2b;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN -->
+    <div id="login" class="center-box">
+        <h2>Enter your FLEXUS ID</h2>
+        <p>6-character ID from the Discord bot</p>
+
+        <input type="text" id="userID" placeholder="example: a9f3k2" maxlength="6">
+
+        <button onclick="login()">Continue</button>
+
+        <p id="error" style="color: #ff4d4d; margin-top: 10px;"></p>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="center-box">
+        <h2>Welcome to your Dashboard</h2>
+        <p>Your ID: <span id="displayID"></span></p>
+
+        <div class="card">
+            <h3>⚙️ Bot Settings</h3>
+            <p>Configure bot features directly from the dashboard.</p>
+        </div>
+
+        <div class="card">
+            <h3>👤 Account Info</h3>
+            <p>View your linked Discord data.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛠 Tools</h3>
+            <p>Access exclusive tools not available in Discord.</p>
+        </div>
+
+        <button onclick="logout()">Log out</button>
+    </div>
+
+    <script>
+        // Simulación temporal de IDs válidas (esto luego lo conectas al backend)
+        const validIDs = ["a9f3k2", "x1b0qz", "m4t8c1"];
+
+        function login() {
+            const id = document.getElementById("userID").value.toLowerCase();
+            const error = document.getElementById("error");
+
+            if (id.length !== 6) {
+                error.textContent = "ID must be 6 characters.";
+                return;
+            }
+
+            // Aquí luego harás una petición al servidor para validar la ID real
+            if (!validIDs.includes(id)) {
+                error.textContent = "Invalid ID.";
+                return;
+            }
+
+            // Mostrar dashboard
+            document.getElementById("login").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+            document.getElementById("displayID").textContent = id;
+        }
+
+        function logout() {
+            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("login").style.display = "block";
+            document.getElementById("userID").value = "";
+            document.getElementById("error").textContent = "";
+        }
+    </script>
+
+</body>
+</html>
