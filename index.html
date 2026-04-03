@@ -1,140 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>FLEXUS Dashboard</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: "Poppins", sans-serif;
-            background: linear-gradient(135deg, #1f1f1f, #111);
-            color: white;
-        }
+  <meta charset="UTF-8">
+  <title>Panel de Control del Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        .center-box {
-            width: 400px;
-            margin: 120px auto;
-            background: #222;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-            animation: fadeIn 0.6s ease;
-        }
+  <style>
+    body {
+      background: #0d1117;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
 
-        input {
-            width: 90%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            margin-top: 15px;
-            font-size: 16px;
-        }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #161b22;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #30363d;
+    }
 
-        button {
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: #5865F2;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 16px;
+    }
 
-        button:hover {
-            background: #4752C4;
-        }
+    button {
+      background: #238636;
+      color: white;
+      cursor: pointer;
+    }
 
-        #dashboard {
-            display: none;
-            animation: fadeIn 0.6s ease;
-        }
+    button:hover {
+      background: #2ea043;
+    }
 
-        .card {
-            background: #2b2b2b;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            text-align: left;
-        }
+    .hidden {
+      display: none;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    .section {
+      margin-top: 20px;
+      padding: 15px;
+      background: #21262d;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- LOGIN -->
-    <div id="login" class="center-box">
-        <h2>Enter your FLEXUS ID</h2>
-        <p>6-character ID from the Discord bot</p>
+  <div class="container">
+    <h2>Panel de Control del Bot</h2>
+    <p>Introduce la ID de tu bot para gestionar sus ajustes.</p>
 
-        <input type="text" id="userID" placeholder="example: a9f3k2" maxlength="6">
+    <input id="botIdInput" type="text" placeholder="ID del bot">
+    <button onclick="buscarBot()">Buscar bot</button>
 
-        <button onclick="login()">Continue</button>
+    <p id="status"></p>
 
-        <p id="error" style="color: #ff4d4d; margin-top: 10px;"></p>
+    <!-- Ajustes -->
+    <div id="settings" class="hidden">
+      <h3>Ajustes del Bot</h3>
+
+      <div class="section">
+        <label>Estado del bot:</label>
+        <select id="botStatus">
+          <option value="online">Online</option>
+          <option value="idle">Idle</option>
+          <option value="dnd">No molestar</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <label>Mensaje de bienvenida:</label>
+        <input id="welcomeMessage" type="text" placeholder="Hola! Soy tu bot.">
+      </div>
+
+      <div class="section">
+        <label>Anti-ping:</label>
+        <select id="antiPing">
+          <option value="off">Desactivado</option>
+          <option value="warn">Advertencia</option>
+          <option value="mute">Mute</option>
+        </select>
+      </div>
+
+      <button onclick="guardarAjustes()">Guardar ajustes</button>
     </div>
+  </div>
 
-    <!-- DASHBOARD -->
-    <div id="dashboard" class="center-box">
-        <h2>Welcome to your Dashboard</h2>
-        <p>Your ID: <span id="displayID"></span></p>
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        <div class="card">
-            <h3>⚙️ Bot Settings</h3>
-            <p>Configure bot features directly from the dashboard.</p>
-        </div>
+    // Tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD13N4-9MjTrmlPwGP7mves0Exje4v2ACw",
+      authDomain: "kahoot-8529e.firebaseapp.com",
+      databaseURL: "https://kahoot-8529e-default-rtdb.firebaseio.com",
+      projectId: "kahoot-8529e",
+      storageBucket: "kahoot-8529e.firebasestorage.app",
+      messagingSenderId: "313414356056",
+      appId: "1:313414356056:web:4aab4587f7df9393008e2d",
+      measurementId: "G-8T4CPC1BQ3"
+    };
 
-        <div class="card">
-            <h3>👤 Account Info</h3>
-            <p>View your linked Discord data.</p>
-        </div>
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        <div class="card">
-            <h3>🛠 Tools</h3>
-            <p>Access exclusive tools not available in Discord.</p>
-        </div>
+    // Buscar bot por ID
+    window.buscarBot = async function () {
+      const botId = document.getElementById("botIdInput").value.trim();
+      const status = document.getElementById("status");
 
-        <button onclick="logout()">Log out</button>
-    </div>
+      if (!botId) {
+        status.textContent = "Introduce una ID válida.";
+        return;
+      }
 
-    <script>
-        // Simulación temporal de IDs válidas (esto luego lo conectas al backend)
-        const validIDs = ["a9f3k2", "x1b0qz", "m4t8c1"];
+      const botRef = ref(db, "bots/" + botId);
+      const snapshot = await get(botRef);
 
-        function login() {
-            const id = document.getElementById("userID").value.toLowerCase();
-            const error = document.getElementById("error");
+      if (snapshot.exists()) {
+        status.textContent = "✔ Bot encontrado. Cargando ajustes...";
+        document.getElementById("settings").classList.remove("hidden");
 
-            if (id.length !== 6) {
-                error.textContent = "ID must be 6 characters.";
-                return;
-            }
+        const data = snapshot.val();
 
-            // Aquí luego harás una petición al servidor para validar la ID real
-            if (!validIDs.includes(id)) {
-                error.textContent = "Invalid ID.";
-                return;
-            }
+        document.getElementById("botStatus").value = data.status || "online";
+        document.getElementById("welcomeMessage").value = data.welcome || "";
+        document.getElementById("antiPing").value = data.antiPing || "off";
 
-            // Mostrar dashboard
-            document.getElementById("login").style.display = "none";
-            document.getElementById("dashboard").style.display = "block";
-            document.getElementById("displayID").textContent = id;
-        }
+      } else {
+        status.textContent = "❌ Este bot no existe en la base de datos.";
+        document.getElementById("settings").classList.add("hidden");
+      }
+    };
 
-        function logout() {
-            document.getElementById("dashboard").style.display = "none";
-            document.getElementById("login").style.display = "block";
-            document.getElementById("userID").value = "";
-            document.getElementById("error").textContent = "";
-        }
-    </script>
+    // Guardar ajustes
+    window.guardarAjustes = async function () {
+      const botId = document.getElementById("botIdInput").value.trim();
+      const status = document.getElementById("status");
+
+      const ajustes = {
+        status: document.getElementById("botStatus").value,
+        welcome: document.getElementById("welcomeMessage").value,
+        antiPing: document.getElementById("antiPing").value
+      };
+
+      await set(ref(db, "bots/" + botId), ajustes);
+
+      status.textContent = "✔ Ajustes guardados correctamente.";
+    };
+  </script>
 
 </body>
 </html>
