@@ -1,165 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel de Control del Bot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexus Bot – Official Page</title>
 
-  <style>
-    body {
-      background: #0d1117;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0d0d0d;
+            color: #e6e6e6;
+            scroll-behavior: smooth;
+        }
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #161b22;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #30363d;
-    }
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1a1a1a, #111);
+            border-bottom: 1px solid #222;
+        }
 
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 16px;
-    }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #4da6ff;
+        }
 
-    button {
-      background: #238636;
-      color: white;
-      cursor: pointer;
-    }
+        h2 {
+            color: #4da6ff;
+            margin-top: 40px;
+        }
 
-    button:hover {
-      background: #2ea043;
-    }
+        p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
 
-    .hidden {
-      display: none;
-    }
+        .section {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 20px;
+        }
 
-    .section {
-      margin-top: 20px;
-      padding: 15px;
-      background: #21262d;
-      border-radius: 8px;
-    }
-  </style>
+        .btn-container {
+            margin-top: 25px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            background: #4da6ff;
+            color: #000;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: #80c1ff;
+            transform: translateY(-3px);
+        }
+
+        .credits-box {
+            background: #111;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #222;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            border-top: 1px solid #222;
+            color: #777;
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h2>Panel de Control del Bot</h2>
-    <p>Introduce la ID de tu bot para gestionar sus ajustes.</p>
+    <header>
+        <h1>Flexus Bot</h1>
+        <p>Moderation • Utility • Security • Free & Powerful</p>
 
-    <input id="botIdInput" type="text" placeholder="ID del bot">
-    <button onclick="buscarBot()">Buscar bot</button>
+        <div class="btn-container">
+            <a class="btn" href="https://discord.com/oauth2/authorize?client_id=1459326358248231115&permissions=8&integration_type=0&scope=bot+applications.commands">
+                ➕ Add the bot to your server
+            </a>
 
-    <p id="status"></p>
+            <a class="btn" href="https://discord.gg/4FZt7p8SV">
+                💬 Support Server
+            </a>
+        </div>
+    </header>
 
-    <!-- Ajustes -->
-    <div id="settings" class="hidden">
-      <h3>Ajustes del Bot</h3>
+    <section class="section">
+        <h2>Quiénes somos</h2>
+        <p><strong>ESPAÑOL:</strong><br>
+        Flexus Bot es un bot gratuito diseñado para ofrecer moderación avanzada, utilidades esenciales y herramientas de seguridad para cualquier servidor de Discord. Incluye comandos como moderación, anti‑spam, información, utilidades y mucho más. Su objetivo es mejorar la experiencia de tu comunidad con un sistema rápido, estable y fácil de usar.</p>
 
-      <div class="section">
-        <label>Estado del bot:</label>
-        <select id="botStatus">
-          <option value="online">Online</option>
-          <option value="idle">Idle</option>
-          <option value="dnd">No molestar</option>
-        </select>
-      </div>
+        <p><strong>ENGLISH:</strong><br>
+        Flexus Bot is a free Discord bot built to provide advanced moderation, essential utilities, and strong security tools for any server. It includes moderation commands, anti‑spam protection, information tools, utilities, and more. Its purpose is to enhance your community with a fast, stable, and user‑friendly system.</p>
+    </section>
 
-      <div class="section">
-        <label>Mensaje de bienvenida:</label>
-        <input id="welcomeMessage" type="text" placeholder="Hola! Soy tu bot.">
-      </div>
+    <section class="section">
+        <h2>Créditos</h2>
 
-      <div class="section">
-        <label>Anti-ping:</label>
-        <select id="antiPing">
-          <option value="off">Desactivado</option>
-          <option value="warn">Advertencia</option>
-          <option value="mute">Mute</option>
-        </select>
-      </div>
+        <div class="credits-box">
+            <p><strong>Creador:</strong> Àlex/dev</p>
+            <p><strong>Cofundador:</strong> @elpapu</p>
+            <p><strong>Diseñador:</strong> @el67bestia</p>
 
-      <button onclick="guardarAjustes()">Guardar ajustes</button>
-    </div>
-  </div>
+            <h3 style="color:#4da6ff; margin-top:20px;">Donaciones</h3>
+            <p>Si deseas apoyar el proyecto:</p>
+            <a class="btn" href="https://paypal.me/alexpaypal1270">💙 Donar vía PayPal</a>
+        </div>
+    </section>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    // Tu configuración de Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyD13N4-9MjTrmlPwGP7mves0Exje4v2ACw",
-      authDomain: "kahoot-8529e.firebaseapp.com",
-      databaseURL: "https://kahoot-8529e-default-rtdb.firebaseio.com",
-      projectId: "kahoot-8529e",
-      storageBucket: "kahoot-8529e.firebasestorage.app",
-      messagingSenderId: "313414356056",
-      appId: "1:313414356056:web:4aab4587f7df9393008e2d",
-      measurementId: "G-8T4CPC1BQ3"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Buscar bot por ID
-    window.buscarBot = async function () {
-      const botId = document.getElementById("botIdInput").value.trim();
-      const status = document.getElementById("status");
-
-      if (!botId) {
-        status.textContent = "Introduce una ID válida.";
-        return;
-      }
-
-      const botRef = ref(db, "bots/" + botId);
-      const snapshot = await get(botRef);
-
-      if (snapshot.exists()) {
-        status.textContent = "✔ Bot encontrado. Cargando ajustes...";
-        document.getElementById("settings").classList.remove("hidden");
-
-        const data = snapshot.val();
-
-        document.getElementById("botStatus").value = data.status || "online";
-        document.getElementById("welcomeMessage").value = data.welcome || "";
-        document.getElementById("antiPing").value = data.antiPing || "off";
-
-      } else {
-        status.textContent = "❌ Este bot no existe en la base de datos.";
-        document.getElementById("settings").classList.add("hidden");
-      }
-    };
-
-    // Guardar ajustes
-    window.guardarAjustes = async function () {
-      const botId = document.getElementById("botIdInput").value.trim();
-      const status = document.getElementById("status");
-
-      const ajustes = {
-        status: document.getElementById("botStatus").value,
-        welcome: document.getElementById("welcomeMessage").value,
-        antiPing: document.getElementById("antiPing").value
-      };
-
-      await set(ref(db, "bots/" + botId), ajustes);
-
-      status.textContent = "✔ Ajustes guardados correctamente.";
-    };
-  </script>
+    <footer>
+        © 2026 Flexus Bot — All rights reserved.
+    </footer>
 
 </body>
 </html>
